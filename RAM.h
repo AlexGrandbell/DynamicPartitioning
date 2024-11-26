@@ -18,6 +18,7 @@ using namespace std;
 class RAM {
 public:
     int totalSize; //总大小
+    int totalTime;//最少时间
 
     //总进程列表，根据开始时间优先队列
     map<int, Process> processesNum;//所有进程对照表
@@ -30,6 +31,13 @@ public:
             if (!processesNum) {
                 throw std::logic_error("未初始化比较器");
             }
+//            if(processesNum->at(lhs).createTime > processesNum->at(rhs).createTime){
+//                return true;
+//            }else if(processesNum->at(lhs).createTime == processesNum->at(rhs).createTime) {
+//                return processesNum->at(lhs).needSize < processesNum->at(rhs).needSize;
+//            }else {
+//                return false;
+//            }
             return processesNum->at(lhs).createTime > processesNum->at(rhs).createTime;
         }
     };
@@ -42,14 +50,17 @@ public:
 //    priority_queue<PartitionSpace, vector<PartitionSpace>, greater<PartitionSpace>> freePartitionSpacesBeatQueue;//空闲分最佳适应法区优先队列
 //    priority_queue<PartitionSpace, vector<PartitionSpace>, less<PartitionSpace>> freePartitionSpacesWorstQueue;//空闲分区最坏适应法优先队列
 
-    RAM(int totalSize, vector<Process> processes) : totalSize(totalSize) {
-        // 添加初始化分区到 map
+    RAM(int totalSize, vector<Process> processes) : totalSize(totalSize),totalTime(0) {
+        //添加初始化分区到 map
         partitionSpacesNum[0] = PartitionSpace(0, totalSize, true);
         partitionSpaces.push_back(0);
 
-        // 将进程添加到 processesNum 中
+        //将进程添加到processesNum中
         for (auto &process : processes) {
             processesNum[process.id] = process;
+            if (process.createTime+process.needTime > totalTime) {
+                totalTime = process.createTime+process.needTime;
+            }
         }
 
         //初始化优先队列时传入ProcessComparator

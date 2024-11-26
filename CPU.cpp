@@ -22,6 +22,7 @@ void CPU::RunOnce() {
     currentTime++;
     cout<<"---------"<<endl;
     cout<<"当前时间："<<currentTime<<endl;
+    cout<<"\n运行过程: "<<endl;
     ram->RunOnceAndRecycle();
     while(!ram->processes.empty() && ram->processesNum[ram->processes.top()].createTime <= currentTime) {
         ram->waitingProcesses.push(ram->processes.top());
@@ -34,7 +35,7 @@ void CPU::RunOnce() {
             break;
         }
     }
-    cout<<"此次运行完毕，当前内存分配状态为："<<endl;
+    cout<<"\n此次运行完毕，当前内存分配状态为："<<endl;
     ram->ShowMemoryStatus();
     cout<<"---------"<<endl;
 }
@@ -42,7 +43,7 @@ void CPU::RunOnce() {
 //运行到结束
 void CPU::RunToEnd() {
     cout<<"开始运行"<<endl;
-    while(!ram->processes.empty() || !ram->waitingProcesses.empty()) {
+    while(ram->totalTime>currentTime || !ram->partitionSpacesNum.size()>1) {
         RunOnce();
     }
     cout<<"结束运行"<<endl;
