@@ -3,4 +3,15 @@ project(DynamicPartitioning)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(DynamicPartitioning main.cpp)
+add_executable(DynamicPartitioning main.cpp
+        Process.h
+        PartitionSpace.h
+        RAM.h
+        CPU.cpp
+        CPU.h
+        RAM.cpp
+        RAMwithOeder.cpp
+        RAMwithOeder.h
+        Process.cpp
+        PartitionSpace.cpp
+)
