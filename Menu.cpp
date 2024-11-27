@@ -170,19 +170,19 @@ void Menu::setRAMSize() {
 void Menu::run() {
     switch (mode) {
         case 1: {
-            RAMwithOeder ram(RAMSize, processes);
+            RAMwithFirstFit ram(RAMSize, processes);
             CPU cpu(&ram);
             cpu.RunToEnd();
             break;
         }
         case 2: {
-            RAMwithBest ram(RAMSize, processes);
+            RAMwithBestFit ram(RAMSize, processes);
             CPU cpu(&ram);
             cpu.RunToEnd();
             break;
         }
         default: {
-            RAMwithWorst ram(RAMSize, processes);
+            RAMwithWorstFit ram(RAMSize, processes);
             CPU cpu(&ram);
             cpu.RunToEnd();
             break;

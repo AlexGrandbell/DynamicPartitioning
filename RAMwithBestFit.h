@@ -2,15 +2,15 @@
 // Created by AlexGrandbell on 24-11-27.
 //
 
-#ifndef DYNAMICPARTITIONING_RAMWITHBEST_H
-#define DYNAMICPARTITIONING_RAMWITHBEST_H
+#ifndef DYNAMICPARTITIONING_RAMWITHBESTFIT_H
+#define DYNAMICPARTITIONING_RAMWITHBESTFIT_H
 
 #include "RAM.h"
 
 //内存类，按照最佳适应法分配
-class RAMwithBest: public RAM {
+class RAMwithBestFit: public RAM {
 public:
-    RAMwithBest(int totalSize,vector<Process> processes): RAM(totalSize, processes) {
+    RAMwithBestFit(int totalSize, vector<Process> processes): RAM(totalSize, processes) {
         //初始化空闲分区链表
         partitionFreeSpaces = priority_queue<int, vector<int>, function<bool(int, int)>>(
                 [this](int lhs, int rhs) { return BestComparator(partitionSpacesMap)(lhs, rhs); }
@@ -19,4 +19,4 @@ public:
     }
 };
 
-#endif //DYNAMICPARTITIONING_RAMWITHBEST_H
+#endif //DYNAMICPARTITIONING_RAMWITHBESTFIT_H

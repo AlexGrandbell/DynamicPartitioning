@@ -8,9 +8,9 @@
 #include <iostream>
 #include <fstream>
 #include "CPU.h"
-#include "RAMwithOeder.h"
-#include "RAMwithBest.h"
-#include "RAMwithWorst.h"
+#include "RAMwithFirstFit.h"
+#include "RAMwithBestFit.h"
+#include "RAMwithWorstFit.h"
 
 using namespace std;
 
