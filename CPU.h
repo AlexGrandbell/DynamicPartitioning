@@ -23,5 +23,4 @@ public:
     void RunToEnd();
 };
 
-
 #endif //DYNAMICPARTITIONING_CPU_H

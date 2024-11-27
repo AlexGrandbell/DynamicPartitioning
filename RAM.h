@@ -14,10 +14,6 @@
 
 using namespace std;
 
-//struct BaseComparator {
-//    virtual bool operator()(int lhs, int rhs) const = 0;
-//    virtual ~BaseComparator() = default;
-//};
 struct CreateTimeComparator{
     const std::map<int, Process>* comProcessesNum;
 
@@ -116,7 +112,5 @@ protected:
     //合并一次空闲分区
     void mergeFreePartitionSpacesOnce();
 };
-
-
 
 #endif //DYNAMICPARTITIONING_RAM_H

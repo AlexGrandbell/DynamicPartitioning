@@ -115,7 +115,7 @@ void Menu::loadFromInput() {
     cin >> size;
     for (int i = 0; i < size; ++i) {
         int needSize, createTime, needTime;
-        cout << "请输入进程" << i << "的大小、创建时间、需要时间: ";
+        cout << "请依次输入进程" << i << "的大小 创建时间 需要时间: ";
         cin >> needSize >> createTime >> needTime;
         processes.push_back(Process(needSize, createTime, needTime));
     }
@@ -124,23 +124,27 @@ void Menu::loadFromInput() {
 
 //从文件加载
 void Menu::loadFromFile() {
-//    processes.clear();
-//    string fileName;
-//    cout << "请输入文件名: ";
-//    cin >> fileName;
-//    ifstream file(fileName);
-//    if (!file.is_open()) {
-//        cout << "文件打开失败" << endl;
-//        return;
-//    }
-//    int size;
-//    file >> size;
-//    for (int i = 0; i < size; ++i) {
-//        int needSize, createTime, needTime;
-//        file >> needSize >> createTime >> needTime;
-//        processes.push_back(Process(needSize, createTime, needTime));
-//    }
+    cout << "\n请在当前可执行文件的文件夹中准备input.txt文件" << endl;
+    cout << "文件格式: 第一行为进程数量，接下来每行为一个进程的大小 创建时间 需要时间" << endl;
+    cout << "确认后按下回车继续...";
+    getchar();//吃掉缓冲区中的回车
+    getchar();
+    processes.clear();
+    string fileName = "input.txt";
+    ifstream file(fileName);
+    if (!file.is_open()) {
+        cout << "文件打开失败" << endl;
+        return;
+    }
+    int size;
+    file >> size;
+    for (int i = 0; i < size; ++i) {
+        int needSize, createTime, needTime;
+        file >> needSize >> createTime >> needTime;
+        processes.push_back(Process(needSize, createTime, needTime));
+    }
     dataMode = 3;
+    cout << "文件读取成功" << endl;
 }
 
 //设置内存大小

@@ -6,6 +6,7 @@
 #define DYNAMICPARTITIONING_MENU_H
 
 #include <iostream>
+#include <fstream>
 #include "CPU.h"
 #include "RAMwithOeder.h"
 #include "RAMwithBest.h"
