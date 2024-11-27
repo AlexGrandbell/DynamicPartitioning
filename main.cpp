@@ -17,7 +17,7 @@ int main() {
     vector<Process> processes = {processor1, processor2, processor3, processor4, processor5, processor6, processor7};
     RAMwithOeder ram = RAMwithOeder(236, processes);
     CPU cpu = CPU(&ram);
-//    cpu.AddProcess(processes);
+//    cpu.AddProcess(allProcesses);
     cpu.RunToEnd();
     return 0;
 }

@@ -18,7 +18,7 @@ public:
     CPU(RAM *ram): ram(ram), currentTime(-1) {}
 
     //初始化进程
-//    void AddProcess(vector<Process> processes);
+//    void AddProcess(vector<Process> allProcesses);
     //运行一次
     void RunOnce();
     //运行到结束

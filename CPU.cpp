@@ -6,14 +6,14 @@
 
 
 //初始化进程，并按照初始时间排序
-//void CPU::AddProcess(vector<Process> processes) {
-//    for(auto &process: processes) {
-//        ram->processesNum[process.id] = process;
-//        ram->processes.push(process.id);
+//void CPU::AddProcess(vector<Process> allProcesses) {
+//    for(auto &process: allProcesses) {
+//        ram->processesMap[process.id] = process;
+//        ram->allProcesses.push(process.id);
 //    }
 //    //ram中的进程按照时间排序
-//    for(auto &process: ram->processesNum) {
-//        ram->processes.push(process.first);
+//    for(auto &process: ram->processesMap) {
+//        ram->allProcesses.push(process.first);
 //    }
 //}
 
@@ -24,9 +24,9 @@ void CPU::RunOnce() {
     cout<<"当前时间："<<currentTime<<endl;
     cout<<"\n运行过程: "<<endl;
     ram->RunOnceAndRecycle();
-    while(!ram->processes.empty() && ram->processesNum[ram->processes.top()].createTime <= currentTime) {
-        ram->waitingProcesses.push(ram->processes.top());
-        ram->processes.pop();
+    while(!ram->allProcesses.empty() && ram->processesMap[ram->allProcesses.top()].createTime <= currentTime) {
+        ram->waitingProcesses.push(ram->allProcesses.top());
+        ram->allProcesses.pop();
     }
     while(!ram->waitingProcesses.empty()) {
         if(ram->AllocateMemory(ram->waitingProcesses.top())) {
@@ -43,7 +43,7 @@ void CPU::RunOnce() {
 //运行到结束
 void CPU::RunToEnd() {
     cout<<"开始运行"<<endl;
-    while(ram->totalTime>currentTime || !ram->partitionSpacesNum.size()>1) {
+    while(ram->totalTime>currentTime || !ram->partitionSpacesMap.size() > 1) {
         RunOnce();
     }
     cout<<"结束运行"<<endl;

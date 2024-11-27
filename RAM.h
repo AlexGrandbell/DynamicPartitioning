@@ -14,6 +14,21 @@
 
 using namespace std;
 
+struct BaseComparator {
+    virtual bool operator()(int lhs, int rhs) const = 0;
+    virtual ~BaseComparator() = default;
+};
+struct CreateTimeComparator : public BaseComparator {
+    const std::map<int, Process>* comProcessesNum;
+
+    CreateTimeComparator(const std::map<int, Process>& processesMap): comProcessesNum(&processesMap) {}
+
+    bool operator()(int lhs, int rhs) const override {
+        return comProcessesNum->at(lhs).createTime > comProcessesNum->at(rhs).createTime;
+    }
+};
+
+
 //内存类，抽象类
 class RAM {
 public:
@@ -21,55 +36,46 @@ public:
     int totalTime;//最少时间
 
     //总进程列表，根据开始时间优先队列
-    map<int, Process> processesNum;//所有进程对照表
+    map<int, Process> processesMap;//所有进程对照表
     //自定义优先队列比较器
-    struct ProcessComparator {
-        const map<int, Process>* processesNum;
-        ProcessComparator() : processesNum(nullptr) {}
-        ProcessComparator(const std::map<int, Process>& processesNum):processesNum(&processesNum) {}
-        bool operator()(int lhs, int rhs) const {
-            if (!processesNum) {
-                throw std::logic_error("未初始化比较器");
-            }
-//            if(processesNum->at(lhs).createTime > processesNum->at(rhs).createTime){
-//                return true;
-//            }else if(processesNum->at(lhs).createTime == processesNum->at(rhs).createTime) {
-//                return processesNum->at(lhs).needSize < processesNum->at(rhs).needSize;
-//            }else {
-//                return false;
+//    struct ProcessComparator {
+//        const map<int, Process>* comProcessesMap;
+//        ProcessComparator() : comProcessesMap(nullptr) {}
+//        ProcessComparator(const std::map<int, Process>& processesNum): comProcessesMap(&processesNum) {}
+//        bool operator()(int lhs, int rhs) const {
+//            if (!comProcessesMap) {
+//                throw std::logic_error("未初始化比较器");
 //            }
-            return processesNum->at(lhs).createTime > processesNum->at(rhs).createTime;
-        }
-    };
-    priority_queue<int, vector<int>,ProcessComparator> processes;//所有进程ID优先队列
-    priority_queue<int, vector<int>,ProcessComparator> waitingProcesses;//等待进程ID优先队列
+//            return comProcessesMap->at(lhs).createTime > comProcessesMap->at(rhs).createTime;
+//        }
+//    };
+    priority_queue<int, vector<int>,function<bool(int, int)>> allProcesses;//所有进程ID优先队列
+    priority_queue<int, vector<int>,function<bool(int, int)>> waitingProcesses;//等待进程ID优先队列
 
-    map<int, PartitionSpace> partitionSpacesNum;//分区空间对照表
-    list<int> partitionSpaces;//总分区链表
-//    list<PartitionSpace> freePartitionSpaces;//空闲分区链表
-//    priority_queue<PartitionSpace, vector<PartitionSpace>, greater<PartitionSpace>> freePartitionSpacesBeatQueue;//空闲分最佳适应法区优先队列
-//    priority_queue<PartitionSpace, vector<PartitionSpace>, less<PartitionSpace>> freePartitionSpacesWorstQueue;//空闲分区最坏适应法优先队列
+    map<int, PartitionSpace> partitionSpacesMap;//分区空间对照表
+    list<int> partitionAllSpaces;//总分区链表
+//    priority_queue<int, vector<int>, function<bool(int, int)>> partitionFreeSpaces;//空闲分区列表优先队列
 
     RAM(int totalSize, vector<Process> processes) : totalSize(totalSize),totalTime(0) {
         //添加初始化分区到 map
-        partitionSpacesNum[0] = PartitionSpace(0, totalSize, true);
-        partitionSpaces.push_back(0);
+        partitionSpacesMap[0] = PartitionSpace(0, totalSize, true);
+        partitionAllSpaces.push_back(0);
 
         //将进程添加到processesNum中
         for (auto &process : processes) {
-            processesNum[process.id] = process;
+            processesMap[process.id] = process;
             if (process.createTime+process.needTime > totalTime) {
                 totalTime = process.createTime+process.needTime;
             }
         }
 
         //初始化优先队列时传入ProcessComparator
-        this->processes = priority_queue<int, vector<int>, ProcessComparator>(ProcessComparator(processesNum));
-        waitingProcesses = priority_queue<int, vector<int>, ProcessComparator>(ProcessComparator(processesNum));
+        this->allProcesses = priority_queue<int, vector<int>, function<bool(int, int)>>(CreateTimeComparator(processesMap));
+        waitingProcesses = priority_queue<int, vector<int>, function<bool(int, int)>>(CreateTimeComparator(processesMap));
 
         //将进程ID推入优先队列
-        for (auto &process : processesNum) {
-            this->processes.push(process.first);
+        for (auto &process : processesMap) {
+            this->allProcesses.push(process.first);
         }
     }
 
