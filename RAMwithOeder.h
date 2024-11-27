@@ -10,19 +10,11 @@
 //内存类，按照最先适应法分配
 class RAMwithOeder: public RAM {
 public:
-    list<int> freePartitionSpaces;//空闲分区链表
-
-    RAMwithOeder(int totalSize,vector<Process> processes);
-
-    //分配内存接口
-//    bool AllocateMemory(int processId) override;
-    //运行一次减少时间接口并回收结束的内存
-//    void RunOnceAndRecycle() override;
-
-//protected:
-    //合并一次空闲分区
-//    void mergeFreePartitionSpacesOnce() override;
+    RAMwithOeder(int totalSize,vector<Process> processes): RAM(totalSize, processes) {
+        //初始化空闲分区链表
+        partitionFreeSpaces = priority_queue<int, vector<int>, function<bool(int, int)>>([this](int lhs, int rhs) { return StartAddressComparator(partitionSpacesMap)(lhs, rhs); });
+        partitionFreeSpaces.push(0);
+    }
 };
-
 
 #endif //DYNAMICPARTITIONING_RAMWITHOEDER_H

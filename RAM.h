@@ -14,30 +14,52 @@
 
 using namespace std;
 
-struct BaseComparator {
-    virtual bool operator()(int lhs, int rhs) const = 0;
-    virtual ~BaseComparator() = default;
-};
-struct CreateTimeComparator : public BaseComparator {
+//struct BaseComparator {
+//    virtual bool operator()(int lhs, int rhs) const = 0;
+//    virtual ~BaseComparator() = default;
+//};
+struct CreateTimeComparator{
     const std::map<int, Process>* comProcessesNum;
 
     CreateTimeComparator(const std::map<int, Process>& processesMap): comProcessesNum(&processesMap) {}
 
-    bool operator()(int lhs, int rhs) const override {
+    bool operator()(int lhs, int rhs) const {
         return comProcessesNum->at(lhs).createTime > comProcessesNum->at(rhs).createTime;
     }
 };
 
-struct StartAddressComparator : public BaseComparator {
-    const std::map<int, PartitionSpace>* comPartitionSpaceNum;
+//最先适应法比较器
+struct StartAddressComparator {
+    const map<int, PartitionSpace>* comPartitionSpaceNum;
 
     StartAddressComparator(const std::map<int, PartitionSpace>& partitionSpacesMap): comPartitionSpaceNum(&partitionSpacesMap) {}
 
-    bool operator()(int lhs, int rhs) const override {
+    bool operator()(int lhs, int rhs) const {
         return comPartitionSpaceNum->at(lhs).startAddress > comPartitionSpaceNum->at(rhs).startAddress;
     }
 };
 
+//最佳适应法比较器
+struct BestComparator{
+    const map<int, PartitionSpace>* comPartitionSpaceNum;
+
+    BestComparator(const std::map<int, PartitionSpace>& partitionSpacesMap): comPartitionSpaceNum(&partitionSpacesMap) {}
+
+    bool operator()(int lhs, int rhs) const {
+        return comPartitionSpaceNum->at(lhs).assignedSize > comPartitionSpaceNum->at(rhs).assignedSize;
+    }
+};
+
+//最坏适应法比较器
+struct WorstSizeComparator {
+    const map<int, PartitionSpace>* comPartitionSpaceNum;
+
+    WorstSizeComparator(const std::map<int, PartitionSpace>& partitionSpacesMap): comPartitionSpaceNum(&partitionSpacesMap) {}
+
+    bool operator()(int lhs, int rhs) const  {
+        return comPartitionSpaceNum->at(lhs).assignedSize < comPartitionSpaceNum->at(rhs).assignedSize;
+    }
+};
 
 //内存类，抽象类
 class RAM {
@@ -68,11 +90,13 @@ public:
         }
 
         //初始化优先队列时传入ProcessComparator
-        this->allProcesses = priority_queue<int, vector<int>, function<bool(int, int)>>(CreateTimeComparator(processesMap));
-        waitingProcesses = priority_queue<int, vector<int>, function<bool(int, int)>>(CreateTimeComparator(processesMap));
-        partitionFreeSpaces = priority_queue<int, vector<int>, function<bool(int, int)>>(StartAddressComparator(partitionSpacesMap));
-
-        partitionFreeSpaces.push(0);
+        //初始化优先队列时传入 CreateTimeComparator
+        this->allProcesses = priority_queue<int, vector<int>, function<bool(int, int)>>(
+                [this](int lhs, int rhs) { return CreateTimeComparator(processesMap)(lhs, rhs); }
+        );
+        waitingProcesses = priority_queue<int, vector<int>, function<bool(int, int)>>(
+                [this](int lhs, int rhs) { return CreateTimeComparator(processesMap)(lhs, rhs); }
+        );
 
         //将进程ID推入优先队列
         for (auto &process : processesMap) {

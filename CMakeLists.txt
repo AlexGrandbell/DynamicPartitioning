@@ -10,8 +10,9 @@ add_executable(DynamicPartitioning main.cpp
         CPU.cpp
         CPU.h
         RAM.cpp
-        RAMwithOeder.cpp
         RAMwithOeder.h
         Process.cpp
         PartitionSpace.cpp
+        RAMwithBest.h
+        RAMwithWorst.h
 )
