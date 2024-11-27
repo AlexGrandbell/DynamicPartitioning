@@ -14,7 +14,6 @@ public:
         //初始化空闲分区链表
         partitionFreeSpaces = priority_queue<int, vector<int>, function<bool(int, int)>>([this](int lhs, int rhs) { return WorstSizeComparator(partitionSpacesMap)(lhs, rhs); });
         partitionFreeSpaces.push(0);
-//        PartitionSpace::id = 0;
     }
 };
 

@@ -101,40 +101,6 @@ bool RAM::AllocateMemory(int processId) {
         }
     }
     return false;
-//    for(auto it = freePartitionSpaces.begin(); it != freePartitionSpaces.end(); it++) {
-//        //找到合适的分区
-//        if(partitionSpacesMap[*it].assignedSize >= processesMap[processId].needSize) {
-//            //分配内存
-//            partitionSpacesMap[*it].isFree = false;
-//            partitionSpacesMap[*it].processId = processId;
-//            //如果分区大小大于进程大小，分割分区，将新的分区放入map，并将编号插入链表
-//            if(partitionSpacesMap[*it].assignedSize > processesMap[processId].needSize) {
-//                int newStartAddress = partitionSpacesMap[*it].startAddress + processesMap[processId].needSize;
-//                int newAssignedSize = partitionSpacesMap[*it].assignedSize - processesMap[processId].needSize;
-//                partitionSpacesMap[*it].assignedSize = processesMap[processId].needSize;//修改原分区大小
-//                //新建空白分区
-//                PartitionSpace newPartitionSpace(newStartAddress, newAssignedSize);
-//                partitionSpacesMap[newPartitionSpace.partitionId] = newPartitionSpace;
-//                //插入分区合适位置
-//                auto it2 = partitionAllSpaces.begin();
-//                while(it2 != partitionAllSpaces.end() && partitionSpacesMap[*it2].startAddress < newPartitionSpace.startAddress) {
-//                    it2++;
-//                }
-//                partitionAllSpaces.insert(it2, newPartitionSpace.partitionId);
-//                //插入空闲分区链表到合适位置
-//                auto it3 = it;
-//                it3++;
-//                freePartitionSpaces.insert(it3, newPartitionSpace.partitionId);
-//                //输出分割结果
-//                cout << "分割分区: 分割分区" << *it << "，分区" << *it << "大小重新分配为" << partitionSpacesMap[*it].assignedSize << "，新分区" << newPartitionSpace.partitionId << "大小为" << newPartitionSpace.assignedSize << endl;
-//            }
-//            //输出分配结果
-//            cout<<"分配进程: 分配进程"<<processId<<"到分区"<<*it<<endl;
-//            //从空闲分区链表中删除
-//            freePartitionSpaces.erase(it);
-//            return true;
-//        }
-//    }
 }
 
 //回收并合并一次空闲分区

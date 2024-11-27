@@ -16,7 +16,6 @@ public:
                 [this](int lhs, int rhs) { return BestComparator(partitionSpacesMap)(lhs, rhs); }
         );
         partitionFreeSpaces.push(0);
-//        PartitionSpace::id = 0;
     }
 };
 

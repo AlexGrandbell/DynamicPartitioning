@@ -15,4 +15,6 @@ add_executable(DynamicPartitioning main.cpp
         PartitionSpace.cpp
         RAMwithBest.h
         RAMwithWorst.h
+        Menu.cpp
+        Menu.h
 )

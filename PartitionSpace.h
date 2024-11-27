@@ -20,8 +20,8 @@ public:
         partitionId = id++;
     }
     //新的内存
-    PartitionSpace(int startAddress, int assignedSize, bool isFirst): startAddress(startAddress), assignedSize(assignedSize){
-        id = 0;
+    PartitionSpace(int startAddress, int assignedSize, bool isFirst): startAddress(startAddress), assignedSize(assignedSize), isFree(true), processId(-1){
+        id=0;
         partitionId = id++;
     }
     PartitionSpace(): startAddress(0), assignedSize(0), isFree(true), processId(-1){

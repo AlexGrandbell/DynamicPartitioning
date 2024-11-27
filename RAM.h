@@ -77,6 +77,7 @@ public:
     priority_queue<int, vector<int>, function<bool(int, int)>> partitionFreeSpaces;//空闲分区列表优先队列
 
     RAM(int totalSize, vector<Process> processes) : totalSize(totalSize),totalTime(0) {
+
         //添加初始化分区到 map
         partitionSpacesMap[0] = PartitionSpace(0, totalSize, true);
         partitionAllSpaces.push_back(0);
