@@ -43,7 +43,7 @@ void CPU::RunOnce() {
 //运行到结束
 void CPU::RunToEnd() {
     cout<<"开始运行"<<endl;
-    while(ram->totalTime>currentTime || !ram->partitionSpacesMap.size() > 1) {
+    while(ram->totalTime>currentTime || ram->partitionSpacesMap.size() > 1) {
         RunOnce();
     }
     cout<<"结束运行"<<endl;

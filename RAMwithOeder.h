@@ -15,13 +15,13 @@ public:
     RAMwithOeder(int totalSize,vector<Process> processes);
 
     //分配内存接口
-    bool AllocateMemory(int processId) override;
+//    bool AllocateMemory(int processId) override;
     //运行一次减少时间接口并回收结束的内存
-    void RunOnceAndRecycle() override;
+//    void RunOnceAndRecycle() override;
 
-protected:
+//protected:
     //合并一次空闲分区
-    void mergeFreePartitionSpacesOnce() override;
+//    void mergeFreePartitionSpacesOnce() override;
 };
 
 
