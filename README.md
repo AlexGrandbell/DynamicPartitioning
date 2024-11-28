@@ -1,3 +1,24 @@
+OS Experiment:
+
+Experiment 1 Dynamic partition management
+
+(1) The design of main memory allocation simulation system for dynamic partition management - the first adaptation method, the best adaptation method and the worst adaptation method to simulate the memory allocation and recovery;
+
+(2) can input the given memory size, the number of processes, the size of the memory space required by each process, etc.;
+
+(3) The ability to select distribution or recovery operations; It can also display the usage of memory space after memory allocation or recycling.
+
+(4) Can display the storage address and size of the process in memory.
+
+The project implements three algorithms
+
+Project structure:
+Process and PartitionSpace are the bottom layers
+RAM references the above two files, and is the parent class, and has three subclasses, respectively RAMwithFirstFit, RAMwithBestFit, RAMwithWorstFit, by simply adjusting the comparison function of the free area priority queue to implement three algorithms
+The CPU only refers to the RAM file, and the algorithm is differentiated by pointer polymorphism
+Menu references the CPU and three RAM subclass files for user interaction
+Main.cpp implements the main function by referencing the Menu file
+
 操作系统实验：
 
 实验一 动态分区管理
