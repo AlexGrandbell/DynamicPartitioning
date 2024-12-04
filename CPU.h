@@ -20,7 +20,7 @@ public:
     //运行一次
     void RunOnce();
     //运行到结束
-    void RunToEnd();
+    void RunToEnd(bool toEnd = true);
 };
 
 #endif //DYNAMICPARTITIONING_CPU_H

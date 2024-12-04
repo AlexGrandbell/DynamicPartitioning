@@ -49,7 +49,7 @@ private:
 
     void setRAMSize();//设置内存大小
 
-    void run();//运行
+    void run(bool toEnd= true);//运行
 };
 
 

@@ -35,9 +35,10 @@ void Menu::PrintMenu() {
         cout<<"当前内存大小: "<<RAMSize<<"KB"<<endl;
         cout<<"/**---------菜单---------**\\"<<endl;
         cout << "1.选择算法" << endl;
-        cout << "2.选择数据" << endl;
+        cout << "2.设置数据" << endl;
         cout << "3.设置内存大小"<<endl;
-        cout << "4.运行" << endl;
+        cout << "4.单步运行" << endl;
+        cout << "5.直接运行" << endl;
         cout << "0.退出" << endl;
         cout<<"/-**------菜单结束-------**\\"<<endl;
         cout << "请选择:";
@@ -65,6 +66,9 @@ void Menu::PrintMenu() {
                 setRAMSize();
                 break;
             case 4:
+                run(false);
+                break;
+            case 5:
                 run();
                 break;
             case 0:
@@ -167,24 +171,24 @@ void Menu::setRAMSize() {
 }
 
 //运行
-void Menu::run() {
+void Menu::run(bool toEnd) {
     switch (mode) {
         case 1: {
             RAMwithFirstFit ram(RAMSize, processes);
             CPU cpu(&ram);
-            cpu.RunToEnd();
+            cpu.RunToEnd(toEnd);
             break;
         }
         case 2: {
             RAMwithBestFit ram(RAMSize, processes);
             CPU cpu(&ram);
-            cpu.RunToEnd();
+            cpu.RunToEnd(toEnd);
             break;
         }
         default: {
             RAMwithWorstFit ram(RAMSize, processes);
             CPU cpu(&ram);
-            cpu.RunToEnd();
+            cpu.RunToEnd(toEnd);
             break;
         }
     }

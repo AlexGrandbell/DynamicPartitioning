@@ -27,10 +27,23 @@ void CPU::RunOnce() {
 }
 
 //运行到结束
-void CPU::RunToEnd() {
+void CPU::RunToEnd(bool toEnd) {
     cout<<"***************开始运行***************"<<endl;
+    if (!toEnd){
+        getchar();
+    }
     while(ram->totalTime>currentTime || ram->partitionSpacesMap.size() > 1) {
         RunOnce();
+        if (!toEnd){
+            cout<<"按回车继续(按g直接运行到结束)...";
+            char c = getchar();
+            if (c != 10) {
+                getchar();
+                if (c == 'g') {
+                    toEnd = true;
+                }
+            }
+        }
     }
     cout<<"***************结束运行***************"<<endl;
 }
