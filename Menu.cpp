@@ -152,9 +152,19 @@ void Menu::loadFromFile() {
     }
     int size;
     file >> size;
+    if (size<=0){
+        cout<<"数量不得为0，已重新加载默认数据"<<endl;
+        loadFromDefault();
+        return;
+    }
     for (int i = 0; i < size; ++i) {
         int needSize, createTime, needTime;
         file >> needSize >> createTime >> needTime;
+        if (needSize<=0 || createTime <0 || needTime<=0){
+            cout<<"数据错误，已重新加载默认数据"<<endl;
+            loadFromDefault();
+            return;
+        }
         processes.push_back(Process(needSize, createTime, needTime));
     }
     dataMode = 3;
