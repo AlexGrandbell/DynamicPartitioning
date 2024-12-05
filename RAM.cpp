@@ -42,9 +42,8 @@ void RAM::ShowMemoryStatus() {
                 cout << processesMap[partitionSpacesMap[partitionSpace].processId].needTime << "\t";
             }
         }
-        cout<<"\n等待进程数量:\t";
-        cout<<waitingProcesses.size()<<"\t";
-        cout<<endl;
+        cout<<"\n等待进程数量: "<<waitingProcesses.size()<<endl;
+        cout<<"未到来进程数量: "<<allProcesses.size()<<endl;
 }
 
 //分配内存接口
