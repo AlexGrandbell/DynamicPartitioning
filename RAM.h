@@ -24,39 +24,6 @@ struct CreateTimeComparator{
     }
 };
 
-//最先适应法比较器
-struct StartAddressComparator {
-    const map<int, PartitionSpace>* comPartitionSpaceNum;
-
-    StartAddressComparator(const std::map<int, PartitionSpace>& partitionSpacesMap): comPartitionSpaceNum(&partitionSpacesMap) {}
-
-    bool operator()(int lhs, int rhs) const {
-        return comPartitionSpaceNum->at(lhs).startAddress > comPartitionSpaceNum->at(rhs).startAddress;
-    }
-};
-
-//最佳适应法比较器
-struct BestComparator{
-    const map<int, PartitionSpace>* comPartitionSpaceNum;
-
-    BestComparator(const std::map<int, PartitionSpace>& partitionSpacesMap): comPartitionSpaceNum(&partitionSpacesMap) {}
-
-    bool operator()(int lhs, int rhs) const {
-        return comPartitionSpaceNum->at(lhs).assignedSize > comPartitionSpaceNum->at(rhs).assignedSize;
-    }
-};
-
-//最坏适应法比较器
-struct WorstSizeComparator {
-    const map<int, PartitionSpace>* comPartitionSpaceNum;
-
-    WorstSizeComparator(const std::map<int, PartitionSpace>& partitionSpacesMap): comPartitionSpaceNum(&partitionSpacesMap) {}
-
-    bool operator()(int lhs, int rhs) const  {
-        return comPartitionSpaceNum->at(lhs).assignedSize < comPartitionSpaceNum->at(rhs).assignedSize;
-    }
-};
-
 //内存类，抽象类
 class RAM {
 public:

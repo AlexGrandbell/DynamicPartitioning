@@ -7,6 +7,17 @@
 
 #include "RAM.h"
 
+//最坏适应法比较器
+struct WorstSizeComparator {
+    const map<int, PartitionSpace>* comPartitionSpaceNum;
+
+    WorstSizeComparator(const std::map<int, PartitionSpace>& partitionSpacesMap): comPartitionSpaceNum(&partitionSpacesMap) {}
+
+    bool operator()(int lhs, int rhs) const  {
+        return comPartitionSpaceNum->at(lhs).assignedSize < comPartitionSpaceNum->at(rhs).assignedSize;
+    }
+};
+
 //内存类，按照最坏适应法分配
 class RAMwithWorstFit: public RAM {
 public:
